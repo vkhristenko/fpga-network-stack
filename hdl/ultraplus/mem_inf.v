@@ -1,25 +1,31 @@
+/*
+ * Copyright (c) 2019, Systems Group, ETH Zurich
+ * All rights reserved.
+ *
+ * Redistribution and use in source and binary forms, with or without modification,
+ * are permitted provided that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain the above copyright notice,
+ * this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * 3. Neither the name of the copyright holder nor the names of its contributors
+ * may be used to endorse or promote products derived from this software
+ * without specific prior written permission.
+ *
+ * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+ * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
+ * IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+ * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE,
+ * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
 `timescale 1ns / 1ps
 `default_nettype none
-//////////////////////////////////////////////////////////////////////////////////
-// Company: 
-// Engineer: David Sidler
-// 
-// Create Date: 05/09/2018 02:32:06 PM
-// Design Name: 
-// Module Name: mem_inf
-// Project Name: 
-// Target Devices: 
-// Tool Versions: 
-// Description: 
-// 
-// Dependencies: 
-// 
-// Revision:
-// Revision 0.01 - File Created
-// Additional Comments:
-// 
-//////////////////////////////////////////////////////////////////////////////////
-
 
 module mem_inf #(
     parameter ENABLE_DDR0 = 1,
@@ -78,14 +84,14 @@ module mem_inf #(
     //memory 0 read path
     input wire               s_axis_mem0_read_cmd_tvalid,
     output wire              s_axis_mem0_read_cmd_tready,
-    input wire[71:0]         s_axis_mem0_read_cmd_tdata,
+    input wire[95:0]         s_axis_mem0_read_cmd_tdata, //[95:64]: length, [63:0]: addresss
     //read status
     output wire              m_axis_mem0_read_sts_tvalid,
     input wire               m_axis_mem0_read_sts_tready,
     output wire[7:0]         m_axis_mem0_read_sts_tdata,
     //read stream
-    output wire[63:0]        m_axis_mem0_read_tdata,
-    output wire[7:0]         m_axis_mem0_read_tkeep,
+    output wire[511:0]       m_axis_mem0_read_tdata,
+    output wire[63:0]        m_axis_mem0_read_tkeep,
     output wire              m_axis_mem0_read_tlast,
     output wire              m_axis_mem0_read_tvalid,
     input wire               m_axis_mem0_read_tready,
@@ -93,14 +99,14 @@ module mem_inf #(
     //memory 0 write path
     input wire               s_axis_mem0_write_cmd_tvalid,
     output wire              s_axis_mem0_write_cmd_tready,
-    input wire[71:0]         s_axis_mem0_write_cmd_tdata,
+    input wire[95:0]         s_axis_mem0_write_cmd_tdata,  //[95:64]: length, [63:0]: addresss
     //write status
     output wire              m_axis_mem0_write_sts_tvalid,
     input wire               m_axis_mem0_write_sts_tready,
     output wire[7:0]         m_axis_mem0_write_sts_tdata,
     //write stream
-    input wire[63:0]         s_axis_mem0_write_tdata,
-    input wire[7:0]          s_axis_mem0_write_tkeep,
+    input wire[511:0]       s_axis_mem0_write_tdata,
+    input wire[63:0]        s_axis_mem0_write_tkeep,
     input wire               s_axis_mem0_write_tlast,
     input wire               s_axis_mem0_write_tvalid,
     output wire              s_axis_mem0_write_tready,
@@ -108,14 +114,14 @@ module mem_inf #(
     //memory 1 read path
     input wire               s_axis_mem1_read_cmd_tvalid,
     output wire              s_axis_mem1_read_cmd_tready,
-    input wire[71:0]         s_axis_mem1_read_cmd_tdata,
+    input wire[95:0]         s_axis_mem1_read_cmd_tdata, //[95:64]: length, [63:0]: addresss
     //read status
     output wire              m_axis_mem1_read_sts_tvalid,
     input wire               m_axis_mem1_read_sts_tready,
     output wire[7:0]         m_axis_mem1_read_sts_tdata,
     //read stream
-    output wire[63:0]        m_axis_mem1_read_tdata,
-    output wire[7:0]         m_axis_mem1_read_tkeep,
+    output wire[511:0]        m_axis_mem1_read_tdata,
+    output wire[63:0]         m_axis_mem1_read_tkeep,
     output wire              m_axis_mem1_read_tlast,
     output wire              m_axis_mem1_read_tvalid,
     input wire               m_axis_mem1_read_tready,
@@ -123,14 +129,14 @@ module mem_inf #(
     //memory 1 write path
     input wire               s_axis_mem1_write_cmd_tvalid,
     output wire              s_axis_mem1_write_cmd_tready,
-    input wire[71:0]         s_axis_mem1_write_cmd_tdata,
+    input wire[95:0]         s_axis_mem1_write_cmd_tdata, //[95:64]: length, [63:0]: addresss
     //write status
     output wire              m_axis_mem1_write_sts_tvalid,
     input wire               m_axis_mem1_write_sts_tready,
     output wire[7:0]         m_axis_mem1_write_sts_tdata,
     //write stream
-    input wire[63:0]         s_axis_mem1_write_tdata,
-    input wire[7:0]          s_axis_mem1_write_tkeep,
+    input wire[511:0]        s_axis_mem1_write_tdata,
+    input wire[63:0]         s_axis_mem1_write_tkeep,
     input wire               s_axis_mem1_write_tlast,
     input wire               s_axis_mem1_write_tvalid,
     output wire              s_axis_mem1_write_tready
@@ -143,6 +149,7 @@ localparam C0_C_S_AXI_DATA_WIDTH = 512;
 localparam C1_C_S_AXI_ID_WIDTH = 4;
 localparam C1_C_S_AXI_ADDR_WIDTH = 32;
 localparam C1_C_S_AXI_DATA_WIDTH = 512;
+
 
 
  // user interface signals
@@ -236,10 +243,10 @@ wire                                    c1_s_axi_rvalid;
 
 
 always @(posedge c0_ui_clk)
-    c0_aresetn_r <= ~c0_ui_clk_sync_rst;
+    c0_aresetn_r <= ~c0_ui_clk_sync_rst;// & c0_mmcm_locked;
     
 always @(posedge c1_ui_clk)
-    c1_aresetn_r <= ~c1_ui_clk_sync_rst;
+    c1_aresetn_r <= ~c1_ui_clk_sync_rst;// & c1_mmcm_locked;
 
 generate
     if (ENABLE_DDR0 == 1) begin
@@ -414,16 +421,31 @@ endgenerate
  * CLOCK CROSSING
  */
 
+wire        axis_to_dm_mem0_write_cmd_tvalid;
+wire        axis_to_dm_mem0_write_cmd_tready;
+wire[71:0]  axis_to_dm_mem0_write_cmd_tdata;
+assign axis_to_dm_mem0_write_cmd_tvalid = s_axis_mem0_write_cmd_tvalid;
+assign s_axis_mem0_write_cmd_tready = axis_to_dm_mem0_write_cmd_tready;
+// [71:68] reserved, [67:64] tag, [63:32] address,[31] drr, [30] eof, [29:24] dsa, [23] type, [22:0] btt (bytes to transfer)
+assign axis_to_dm_mem0_write_cmd_tdata = {8'h0, s_axis_mem0_write_cmd_tdata[31:0], 1'b1, 1'b1, 6'h0, 1'b1, s_axis_mem0_write_cmd_tdata[86:64]};
+wire        axis_to_dm_mem0_read_cmd_tvalid;
+wire        axis_to_dm_mem0_read_cmd_tready;
+wire[71:0]  axis_to_dm_mem0_read_cmd_tdata;
+assign axis_to_dm_mem0_read_cmd_tvalid = s_axis_mem0_read_cmd_tvalid;
+assign s_axis_mem0_read_cmd_tready = axis_to_dm_mem0_read_cmd_tready;
+// [71:68] reserved, [67:64] tag, [63:32] address,[31] drr, [30] eof, [29:24] dsa, [23] type, [22:0] btt (bytes to transfer)
+assign axis_to_dm_mem0_read_cmd_tdata = {8'h0, s_axis_mem0_read_cmd_tdata[31:0], 1'b1, 1'b1, 6'h0, 1'b1, s_axis_mem0_read_cmd_tdata[86:64]};
+
 wire        axis_mem0_cc_to_dm_write_tvalid;
 wire        axis_mem0_cc_to_dm_write_tready;
-wire[63:0]  axis_mem0_cc_to_dm_write_tdata;
-wire[7:0]   axis_mem0_cc_to_dm_write_tkeep;
+wire[511:0] axis_mem0_cc_to_dm_write_tdata;
+wire[63:0]  axis_mem0_cc_to_dm_write_tkeep;
 wire        axis_mem0_cc_to_dm_write_tlast;
 
 wire        axis_mem0_dm_to_cc_read_tvalid;
 wire        axis_mem0_dm_to_cc_read_tready;
-wire[63:0]  axis_mem0_dm_to_cc_read_tdata;
-wire[7:0]   axis_mem0_dm_to_cc_read_tkeep;
+wire[511:0] axis_mem0_dm_to_cc_read_tdata;
+wire[63:0]  axis_mem0_dm_to_cc_read_tkeep;
 wire        axis_mem0_dm_to_cc_read_tlast;
 
 generate
@@ -439,16 +461,16 @@ axis_data_fifo_64_cc axis_write_data_fifo_mem0 (
    .s_axis_tlast(s_axis_mem0_write_tlast),              // input wire s_axis_tlast
    
    .m_axis_aclk(c0_ui_clk),                // input wire m_axis_aclk
-   .m_axis_aresetn(c0_aresetn_r),          // input wire m_axis_aresetn
+   //.m_axis_aresetn(c0_aresetn_r),          // input wire m_axis_aresetn
    .m_axis_tvalid(axis_mem0_cc_to_dm_write_tvalid),            // output wire m_axis_tvalid
    .m_axis_tready(axis_mem0_cc_to_dm_write_tready),            // input wire m_axis_tready
    .m_axis_tdata(axis_mem0_cc_to_dm_write_tdata),              // output wire [255 : 0] m_axis_tdata
    .m_axis_tkeep(axis_mem0_cc_to_dm_write_tkeep),              // output wire [31 : 0] m_axis_tkeep
-   .m_axis_tlast(axis_mem0_cc_to_dm_write_tlast),              // output wire m_axis_tlast
+   .m_axis_tlast(axis_mem0_cc_to_dm_write_tlast)              // output wire m_axis_tlast
    
-   .axis_data_count(),        // output wire [31 : 0] axis_data_count
-   .axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
-   .axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
+   //.axis_data_count(),        // output wire [31 : 0] axis_data_count
+   //.axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
+   //.axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
  );
 
 axis_data_fifo_64_cc axis_read_data_fifo_mem0 (
@@ -461,35 +483,35 @@ axis_data_fifo_64_cc axis_read_data_fifo_mem0 (
    .s_axis_tlast(axis_mem0_dm_to_cc_read_tlast),              // input wire s_axis_tlast
    
    .m_axis_aclk(axi_clk),                // input wire m_axis_aclk
-   .m_axis_aresetn(aresetn),          // input wire m_axis_aresetn
+   //.m_axis_aresetn(aresetn),          // input wire m_axis_aresetn
    .m_axis_tvalid(m_axis_mem0_read_tvalid),            // output wire m_axis_tvalid
    .m_axis_tready(m_axis_mem0_read_tready),            // input wire m_axis_tready
    .m_axis_tdata(m_axis_mem0_read_tdata),              // output wire [255 : 0] m_axis_tdata
    .m_axis_tkeep(m_axis_mem0_read_tkeep),              // output wire [31 : 0] m_axis_tkeep
-   .m_axis_tlast(m_axis_mem0_read_tlast),              // output wire m_axis_tlast
+   .m_axis_tlast(m_axis_mem0_read_tlast)              // output wire m_axis_tlast
    
-   .axis_data_count(),        // output wire [31 : 0] axis_data_count
-   .axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
-   .axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
+   //.axis_data_count(),        // output wire [31 : 0] axis_data_count
+   //.axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
+   //.axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
  );
     end
  else begin
-     assign s_axis_mem0_write_tready = 1'b1;
-     assign m_axis_mem0_read_tvalid = 1'b0;
+     assign s_axis_mem1_write_tready = 1'b1;
+     assign m_axis_mem1_read_tvalid = 1'b0;
  end
 endgenerate
 
 
 wire        axis_mem1_cc_to_dm_write_tvalid;
 wire        axis_mem1_cc_to_dm_write_tready;
-wire[63:0]  axis_mem1_cc_to_dm_write_tdata;
-wire[7:0]   axis_mem1_cc_to_dm_write_tkeep;
+wire[511:0] axis_mem1_cc_to_dm_write_tdata;
+wire[63:0]  axis_mem1_cc_to_dm_write_tkeep;
 wire        axis_mem1_cc_to_dm_write_tlast;
 
 wire        axis_mem1_dm_to_cc_read_tvalid;
 wire        axis_mem1_dm_to_cc_read_tready;
-wire[63:0]  axis_mem1_dm_to_cc_read_tdata;
-wire[7:0]   axis_mem1_dm_to_cc_read_tkeep;
+wire[511:0] axis_mem1_dm_to_cc_read_tdata;
+wire[63:0]  axis_mem1_dm_to_cc_read_tkeep;
 wire        axis_mem1_dm_to_cc_read_tlast;
 
 generate
@@ -505,16 +527,16 @@ axis_data_fifo_64_cc axis_write_data_fifo_mem1 (
    .s_axis_tlast(s_axis_mem1_write_tlast),              // input wire s_axis_tlast
    
    .m_axis_aclk(c1_ui_clk),                // input wire m_axis_aclk
-   .m_axis_aresetn(c1_aresetn_r),          // input wire m_axis_aresetn
+   //.m_axis_aresetn(c1_aresetn_r),          // input wire m_axis_aresetn
    .m_axis_tvalid(axis_mem1_cc_to_dm_write_tvalid),            // output wire m_axis_tvalid
    .m_axis_tready(axis_mem1_cc_to_dm_write_tready),            // input wire m_axis_tready
    .m_axis_tdata(axis_mem1_cc_to_dm_write_tdata),              // output wire [255 : 0] m_axis_tdata
    .m_axis_tkeep(axis_mem1_cc_to_dm_write_tkeep),              // output wire [31 : 0] m_axis_tkeep
-   .m_axis_tlast(axis_mem1_cc_to_dm_write_tlast),              // output wire m_axis_tlast
+   .m_axis_tlast(axis_mem1_cc_to_dm_write_tlast)              // output wire m_axis_tlast
    
-   .axis_data_count(),        // output wire [31 : 0] axis_data_count
-   .axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
-   .axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
+   //.axis_data_count(),        // output wire [31 : 0] axis_data_count
+   //.axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
+   //.axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
  );
 
 axis_data_fifo_64_cc axis_read_data_fifo_mem1 (
@@ -527,16 +549,16 @@ axis_data_fifo_64_cc axis_read_data_fifo_mem1 (
    .s_axis_tlast(axis_mem1_dm_to_cc_read_tlast),              // input wire s_axis_tlast
    
    .m_axis_aclk(axi_clk),                // input wire m_axis_aclk
-   .m_axis_aresetn(aresetn),          // input wire m_axis_aresetn
+   //.m_axis_aresetn(aresetn),          // input wire m_axis_aresetn
    .m_axis_tvalid(m_axis_mem1_read_tvalid),            // output wire m_axis_tvalid
    .m_axis_tready(m_axis_mem1_read_tready),            // input wire m_axis_tready
    .m_axis_tdata(m_axis_mem1_read_tdata),              // output wire [255 : 0] m_axis_tdata
    .m_axis_tkeep(m_axis_mem1_read_tkeep),              // output wire [31 : 0] m_axis_tkeep
-   .m_axis_tlast(m_axis_mem1_read_tlast),              // output wire m_axis_tlast
+   .m_axis_tlast(m_axis_mem1_read_tlast)              // output wire m_axis_tlast
    
-   .axis_data_count(),        // output wire [31 : 0] axis_data_count
-   .axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
-   .axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
+   //.axis_data_count(),        // output wire [31 : 0] axis_data_count
+   //.axis_wr_data_count(),  // output wire [31 : 0] axis_wr_data_count
+   //.axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
  );
     end
     else begin
@@ -548,33 +570,35 @@ endgenerate
  * DATA MOVERS
  */
 
+//assign c0_s_axi_arid = 1'b0;
+//assign c0_s_axi_awid = 1'b0;
 
 generate
     if (ENABLE_DDR0 == 1) begin
 wire m0_s2mm_err;
 wire m0_mm2s_err;
 
-axi_datamover_64_to_512 datamover_m0 (
+axi_datamover_ip datamover_mem0 (
     .m_axi_mm2s_aclk(c0_ui_clk),// : IN STD_LOGIC;
     .m_axi_mm2s_aresetn(c0_aresetn_r), //: IN STD_LOGIC;
     .mm2s_err(m0_mm2s_err), //: OUT STD_LOGIC;
     .m_axis_mm2s_cmdsts_aclk(axi_clk), //: IN STD_LOGIC;
     .m_axis_mm2s_cmdsts_aresetn(aresetn), //: IN STD_LOGIC;
-    .s_axis_mm2s_cmd_tvalid(s_axis_mem0_read_cmd_tvalid), //: IN STD_LOGIC;
-    .s_axis_mm2s_cmd_tready(s_axis_mem0_read_cmd_tready), //: OUT STD_LOGIC;
-    .s_axis_mm2s_cmd_tdata(s_axis_mem0_read_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
+    .s_axis_mm2s_cmd_tvalid(axis_to_dm_mem0_read_cmd_tvalid), //: IN STD_LOGIC;
+    .s_axis_mm2s_cmd_tready(axis_to_dm_mem0_read_cmd_tready), //: OUT STD_LOGIC;
+    .s_axis_mm2s_cmd_tdata(axis_to_dm_mem0_read_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
     .m_axis_mm2s_sts_tvalid(m_axis_mem0_read_sts_tvalid), //: OUT STD_LOGIC;
     .m_axis_mm2s_sts_tready(m_axis_mem0_read_sts_tready), //: IN STD_LOGIC;
     .m_axis_mm2s_sts_tdata(m_axis_mem0_read_sts_tdata), //: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     .m_axis_mm2s_sts_tkeep(), //: OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
     .m_axis_mm2s_sts_tlast(), //: OUT STD_LOGIC;
-    .m_axi_mm2s_arid(c0_s_axi_arid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    //.m_axi_mm2s_arid(c0_s_axi_arid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_mm2s_araddr(c0_s_axi_araddr), //: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
     .m_axi_mm2s_arlen(c0_s_axi_arlen), //: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     .m_axi_mm2s_arsize(c0_s_axi_arsize), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
     .m_axi_mm2s_arburst(c0_s_axi_arburst), //: OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    .m_axi_mm2s_arprot(c0_s_axi_arprot), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-    .m_axi_mm2s_arcache(c0_s_axi_arcache), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    .m_axi_mm2s_arprot(), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+    .m_axi_mm2s_arcache(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_mm2s_aruser(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_mm2s_arvalid(c0_s_axi_arvalid), //: OUT STD_LOGIC;
     .m_axi_mm2s_arready(c0_s_axi_arready), //: IN STD_LOGIC;
@@ -593,21 +617,21 @@ axi_datamover_64_to_512 datamover_m0 (
     .s2mm_err(m0_s2mm_err), //: OUT STD_LOGIC;
     .m_axis_s2mm_cmdsts_awclk(axi_clk), //: IN STD_LOGIC;
     .m_axis_s2mm_cmdsts_aresetn(aresetn), //: IN STD_LOGIC;
-    .s_axis_s2mm_cmd_tvalid(s_axis_mem0_write_cmd_tvalid), //: IN STD_LOGIC;
-    .s_axis_s2mm_cmd_tready(s_axis_mem0_write_cmd_tready), //: OUT STD_LOGIC;
-    .s_axis_s2mm_cmd_tdata(s_axis_mem0_write_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
+    .s_axis_s2mm_cmd_tvalid(axis_to_dm_mem0_write_cmd_tvalid), //: IN STD_LOGIC;
+    .s_axis_s2mm_cmd_tready(axis_to_dm_mem0_write_cmd_tready), //: OUT STD_LOGIC;
+    .s_axis_s2mm_cmd_tdata(axis_to_dm_mem0_write_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
     .m_axis_s2mm_sts_tvalid(m_axis_mem0_write_sts_tvalid), //: OUT STD_LOGIC;
     .m_axis_s2mm_sts_tready(m_axis_mem0_write_sts_tready), //: IN STD_LOGIC;
     .m_axis_s2mm_sts_tdata(m_axis_mem0_write_sts_tdata), //: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
     .m_axis_s2mm_sts_tkeep(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axis_s2mm_sts_tlast(), //: OUT STD_LOGIC;
-    .m_axi_s2mm_awid(c0_s_axi_awid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    //.m_axi_s2mm_awid(c0_s_axi_awid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_s2mm_awaddr(c0_s_axi_awaddr), //: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
     .m_axi_s2mm_awlen(c0_s_axi_awlen), //: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     .m_axi_s2mm_awsize(c0_s_axi_awsize), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
     .m_axi_s2mm_awburst(c0_s_axi_awburst), //: OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    .m_axi_s2mm_awprot(c0_s_axi_awprot), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-    .m_axi_s2mm_awcache(c0_s_axi_awcache), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    .m_axi_s2mm_awprot(), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+    .m_axi_s2mm_awcache(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_s2mm_awuser(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_s2mm_awvalid(c0_s_axi_awvalid), //: OUT STD_LOGIC;
     .m_axi_s2mm_awready(c0_s_axi_awready), //: IN STD_LOGIC;
@@ -628,12 +652,16 @@ axi_datamover_64_to_512 datamover_m0 (
     end
 else begin
     assign s_axis_mem0_read_cmd_tready = 1'b1;
+    //assign axis_mem0_dm_to_cc_read_tvalid = 1'b0;
     assign m_axis_mem0_read_sts_tvalid = 1'b0;
     assign s_axis_mem0_write_cmd_tready = 1'b1;
     assign m_axis_mem0_write_sts_tvalid = 1'b0;
+    //assign axis_mem0_cc_to_dm_write_tready = 1'b1;
 end
 endgenerate
 
+//assign c1_s_axi_arid = 1'b0;
+//assign c1_s_axi_awid = 1'b0;
 
 
 generate
@@ -642,7 +670,7 @@ wire m1_s2mm_err;
 wire m1_mm2s_err;
 
 
-axi_datamover_64_to_512 datamover_m1 (
+axi_datamover_ip datamover_mem1 (
     .m_axi_mm2s_aclk(c1_ui_clk),// : IN STD_LOGIC;
     .m_axi_mm2s_aresetn(c1_aresetn_r), //: IN STD_LOGIC;
     .mm2s_err(m1_mm2s_err), //: OUT STD_LOGIC;
@@ -656,13 +684,13 @@ axi_datamover_64_to_512 datamover_m1 (
     .m_axis_mm2s_sts_tdata(m_axis_mem1_read_sts_tdata), //: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     .m_axis_mm2s_sts_tkeep(), //: OUT STD_LOGIC_VECTOR(0 DOWNTO 0);
     .m_axis_mm2s_sts_tlast(), //: OUT STD_LOGIC;
-    .m_axi_mm2s_arid(c1_s_axi_arid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    //.m_axi_mm2s_arid(c1_s_axi_arid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_mm2s_araddr(c1_s_axi_araddr), //: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
     .m_axi_mm2s_arlen(c1_s_axi_arlen), //: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     .m_axi_mm2s_arsize(c1_s_axi_arsize), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
     .m_axi_mm2s_arburst(c1_s_axi_arburst), //: OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    .m_axi_mm2s_arprot(c1_s_axi_arprot), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-    .m_axi_mm2s_arcache(c1_s_axi_arcache), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    .m_axi_mm2s_arprot(), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+    .m_axi_mm2s_arcache(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_mm2s_aruser(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_mm2s_arvalid(c1_s_axi_arvalid), //: OUT STD_LOGIC;
     .m_axi_mm2s_arready(c1_s_axi_arready), //: IN STD_LOGIC;
@@ -689,13 +717,13 @@ axi_datamover_64_to_512 datamover_m1 (
     .m_axis_s2mm_sts_tdata(m_axis_mem1_write_sts_tdata), //: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
     .m_axis_s2mm_sts_tkeep(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axis_s2mm_sts_tlast(), //: OUT STD_LOGIC;
-    .m_axi_s2mm_awid(c1_s_axi_awid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    //.m_axi_s2mm_awid(c1_s_axi_awid), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_s2mm_awaddr(c1_s_axi_awaddr), //: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
     .m_axi_s2mm_awlen(c1_s_axi_awlen), //: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
     .m_axi_s2mm_awsize(c1_s_axi_awsize), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
     .m_axi_s2mm_awburst(c1_s_axi_awburst), //: OUT STD_LOGIC_VECTOR(1 DOWNTO 0);
-    .m_axi_s2mm_awprot(c1_s_axi_awprot), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
-    .m_axi_s2mm_awcache(c1_s_axi_awcache), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
+    .m_axi_s2mm_awprot(), //: OUT STD_LOGIC_VECTOR(2 DOWNTO 0);
+    .m_axi_s2mm_awcache(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_s2mm_awuser(), //: OUT STD_LOGIC_VECTOR(3 DOWNTO 0);
     .m_axi_s2mm_awvalid(c1_s_axi_awvalid), //: OUT STD_LOGIC;
     .m_axi_s2mm_awready(c1_s_axi_awready), //: IN STD_LOGIC;
@@ -716,9 +744,11 @@ axi_datamover_64_to_512 datamover_m1 (
     end
     else begin
         assign s_axis_mem1_read_cmd_tready = 1'b1;
+        //assign axis_mem1_dm_to_cc_read_tvalid = 1'b0;
         assign m_axis_mem1_read_sts_tvalid = 1'b0;
         assign s_axis_mem1_write_cmd_tready = 1'b1;
         assign m_axis_mem1_write_sts_tvalid = 1'b0;
+        //assign axis_mem1_cc_to_dm_write_tready = 1'b1;
     end
 endgenerate
 

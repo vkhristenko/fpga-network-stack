@@ -28,6 +28,7 @@
 `default_nettype none
 
 `include "davos_types.svh"
+//`include "davos_config.svh"
 
 module udp_stack #(
     parameter UDP_EN = 1,

@@ -85,22 +85,20 @@ if (NOT hasParent)
    add_subdirectory(hls/ethernet_frame_padding)
 endif()
 
-if (NOT hasParent)
-
-   # Find Xilinx Vivado
-   find_package(Vivado REQUIRED)
-   if (NOT VIVADO_FOUND)
-      message(FATAL_ERROR "Vivado not found.")
-   endif()
-
-   configure_file(${CMAKE_SOURCE_DIR}/scripts/create_project.tcl.in create_project.tcl)
-
-   #set (PROJECT_DEPENDS
-   #     ${CMAKE_SOURCE_DIR}/rtl/common/network_stack.v
-   #     ${CMAKE_SOURCE_DIR}/projects/create_project.tcl.in
-   #     ${CMAKE_SOURCE_DIR}/projects/network_stack.tcl)
-
-   add_custom_target(project
-     COMMAND ${VIVADO_BINARY} -mode batch -source create_project.tcl)
-     #DEPENDS ${PROJECT_DEPENDS})
+# Find Xilinx Vivado
+find_package(Vivado REQUIRED)
+if (NOT VIVADO_FOUND)
+  message(FATAL_ERROR "Vivado not found.")
 endif()
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/hdl/common/davos_config.svh.in ${CMAKE_BINARY_DIR}/davos_config.svh)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/create_project.tcl.in create_project.tcl)
+
+#set (PROJECT_DEPENDS
+#     ${CMAKE_SOURCE_DIR}/rtl/common/network_stack.v
+#     ${CMAKE_SOURCE_DIR}/projects/create_project.tcl.in
+#     ${CMAKE_SOURCE_DIR}/projects/network_stack.tcl)
+
+add_custom_target(project 
+    COMMAND ${VIVADO_BINARY} -mode batch -source create_project.tcl -tclargs \${VIVADO_PROJECT_NAME})
+    #DEPENDS ${PROJECT_DEPENDS})

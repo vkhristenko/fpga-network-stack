@@ -28,6 +28,7 @@
 `default_nettype none
 
 `include "davos_types.svh"
+//`include "davos_config.svh"
 
 module tcp_stack #(
     parameter TCP_EN = 1,

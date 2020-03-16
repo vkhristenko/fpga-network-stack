@@ -28,6 +28,7 @@
 `default_nettype none
 
 `include "davos_types.svh"
+//`include "davos_config.svh"
 
 //`define POINTER_CHASING
 
@@ -54,8 +55,8 @@ module roce_stack #(
     //axi_stream.master       m_axis_roce_role_rx_data,
     axi_stream.slave        s_axis_tx_data,
     
-    axis_meta.master    m_axis_rx_pcmeta,
-    axis_meta.slave     s_axis_tx_pcmeta,
+    //axis_meta.master    m_axis_rx_pcmeta,
+    //axis_meta.slave     s_axis_tx_pcmeta,
 
 
    //Config
@@ -169,9 +170,9 @@ rocev2_ip rocev2_inst(
     .regInvalidPsnDropCount_V_ap_vld(psn_drop_pkg_count_valid)
 );
 
-assign m_axis_rx_pcmeta.valid = 1'b0;
-assign m_axis_rx_pcmeta.data = 0;
-assign s_axis_tx_pcmeta.ready = 1'b1;
+//assign m_axis_rx_pcmeta.valid = 1'b0;
+//assign m_axis_rx_pcmeta.data = 0;
+//assign s_axis_tx_pcmeta.ready = 1'b1;
 
 end
 else begin

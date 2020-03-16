@@ -28,9 +28,10 @@
 `default_nettype none
 
 `define IP_VERSION4
-`define POINTER_CHASING
+//`define POINTER_CHASING
 
 `include "davos_types.svh"
+//`include "davos_config.svh"
 
 module network_stack #(
     parameter NET_BANDWIDTH = 10,
@@ -716,12 +717,6 @@ axis_interconnect_2to1 mac_merger (
   .S01_AXIS_TKEEP(axis_mie_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
   .S01_AXIS_TLAST(axis_mie_to_intercon.last), // input S01_AXIS_TLAST
   
-  /*.S02_AXIS_TVALID(axis_ethencode_to_intercon.valid), // input S01_AXIS_TVALID
-  .S02_AXIS_TREADY(axis_ethencode_to_intercon.ready), // output S01_AXIS_TREADY
-  .S02_AXIS_TDATA(axis_ethencode_to_intercon.data), // input [63 : 0] S01_AXIS_TDATA
-  .S02_AXIS_TKEEP(axis_ethencode_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
-  .S02_AXIS_TLAST(axis_ethencode_to_intercon.last), // input S01_AXIS_TLAST*/
-  
   .M00_AXIS_ACLK(net_clk), // input M00_AXIS_ACLK
   .M00_AXIS_ARESETN(net_aresetn), // input M00_AXIS_ARESETN
   .M00_AXIS_TVALID(m_axis_net.valid), // output M00_AXIS_TVALID
@@ -823,12 +818,6 @@ axis_interconnect_128_2to1 mac_merger (
   .S01_AXIS_TDATA(axis_mie_to_intercon.data), // input [63 : 0] S01_AXIS_TDATA
   .S01_AXIS_TKEEP(axis_mie_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
   .S01_AXIS_TLAST(axis_mie_to_intercon.last), // input S01_AXIS_TLAST
-  
-  /*.S02_AXIS_TVALID(axis_ethencode_to_intercon.valid), // input S01_AXIS_TVALID
-  .S02_AXIS_TREADY(axis_ethencode_to_intercon.ready), // output S01_AXIS_TREADY
-  .S02_AXIS_TDATA(axis_ethencode_to_intercon.data), // input [63 : 0] S01_AXIS_TDATA
-  .S02_AXIS_TKEEP(axis_ethencode_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
-  .S02_AXIS_TLAST(axis_ethencode_to_intercon.last), // input S01_AXIS_TLAST*/
   
   .M00_AXIS_ACLK(net_clk), // input M00_AXIS_ACLK
   .M00_AXIS_ARESETN(net_aresetn), // input M00_AXIS_ARESETN
@@ -932,12 +921,6 @@ axis_interconnect_256_2to1 mac_merger (
   .S01_AXIS_TKEEP(axis_mie_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
   .S01_AXIS_TLAST(axis_mie_to_intercon.last), // input S01_AXIS_TLAST
   
-  /*.S02_AXIS_TVALID(axis_ethencode_to_intercon.valid), // input S01_AXIS_TVALID
-  .S02_AXIS_TREADY(axis_ethencode_to_intercon.ready), // output S01_AXIS_TREADY
-  .S02_AXIS_TDATA(axis_ethencode_to_intercon.data), // input [63 : 0] S01_AXIS_TDATA
-  .S02_AXIS_TKEEP(axis_ethencode_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
-  .S02_AXIS_TLAST(axis_ethencode_to_intercon.last), // input S01_AXIS_TLAST*/
-  
   .M00_AXIS_ACLK(net_clk), // input M00_AXIS_ACLK
   .M00_AXIS_ARESETN(net_aresetn), // input M00_AXIS_ARESETN
   .M00_AXIS_TVALID(m_axis_net.valid), // output M00_AXIS_TVALID
@@ -1038,12 +1021,6 @@ axis_interconnect_512_2to1 mac_merger (
   .S01_AXIS_TDATA(axis_mie_to_intercon.data), // input [63 : 0] S01_AXIS_TDATA
   .S01_AXIS_TKEEP(axis_mie_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
   .S01_AXIS_TLAST(axis_mie_to_intercon.last), // input S01_AXIS_TLAST
-  
-  /*.S02_AXIS_TVALID(axis_ethencode_to_intercon.valid), // input S01_AXIS_TVALID
-  .S02_AXIS_TREADY(axis_ethencode_to_intercon.ready), // output S01_AXIS_TREADY
-  .S02_AXIS_TDATA(axis_ethencode_to_intercon.data), // input [63 : 0] S01_AXIS_TDATA
-  .S02_AXIS_TKEEP(axis_ethencode_to_intercon.keep), // input [7 : 0] S01_AXIS_TKEEP
-  .S02_AXIS_TLAST(axis_ethencode_to_intercon.last), // input S01_AXIS_TLAST*/
   
   .M00_AXIS_ACLK(net_clk), // input M00_AXIS_ACLK
   .M00_AXIS_ARESETN(net_aresetn), // input M00_AXIS_ARESETN

@@ -146,13 +146,17 @@ struct appTxRsp
 template <int WIDTH>
 void toe(	// Data & Memory Interface
 			hls::stream<net_axis<WIDTH> >&						ipRxData,
+#if !(RX_DDR_BYPASS)
 			hls::stream<mmStatus>&						rxBufferWriteStatus,
+#endif
 			hls::stream<mmStatus>&						txBufferWriteStatus,
 			hls::stream<net_axis<WIDTH> >&						rxBufferReadData,
 			hls::stream<net_axis<WIDTH> >&						txBufferReadData,
 			hls::stream<net_axis<WIDTH> >&						ipTxData,
+#if !(RX_DDR_BYPASS)
 			hls::stream<mmCmd>&							rxBufferWriteCmd,
 			hls::stream<mmCmd>&							rxBufferReadCmd,
+#endif
 			hls::stream<mmCmd>&							txBufferWriteCmd,
 			hls::stream<mmCmd>&							txBufferReadCmd,
 			hls::stream<net_axis<WIDTH> >&						rxBufferWriteData,
@@ -182,6 +186,10 @@ void toe(	// Data & Memory Interface
 			hls::stream<net_axis<WIDTH> >&						rxDataRsp,
 			hls::stream<openStatus>&						openConnRsp,
 			hls::stream<appTxRsp>&						txDataRsp,
+#if RX_DDR_BYPASS
+            ap_uint<16>                                 axis_data_count,
+            ap_uint<16>                                 axis_max_data_count,
+#endif
 			//IP Address Input
 			ap_uint<32>								myIpAddress,
 			//statistic
