@@ -84,8 +84,8 @@ wire aresetn;
 wire network_init;
 
 wire [2:0] gt_loopback_in_0; 
-wire[3:0] user_rx_reset;
-wire[3:0] user_tx_reset;
+wire[0:0] user_rx_reset;
+wire[0:0] user_tx_reset;
 wire gtpowergood_out;
 
 //// For other GT loopback options please change the value appropriately
