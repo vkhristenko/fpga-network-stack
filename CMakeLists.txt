@@ -93,6 +93,7 @@ endif()
 
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/hdl/common/davos_config.svh.in ${CMAKE_BINARY_DIR}/davos_config.svh)
 configure_file(${CMAKE_SOURCE_DIR}/scripts/create_project.tcl.in create_project.tcl)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/run_synthesis.tcl.in run_synthesis.tcl)
 
 #set (PROJECT_DEPENDS
 #     ${CMAKE_SOURCE_DIR}/rtl/common/network_stack.v

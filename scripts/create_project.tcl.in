@@ -5,6 +5,7 @@ if { [llength $argv] == 0} {
     set proj_name [lindex $argv 0]
 } else {
     puts "wrong number of tclargs."
+    exit 1
 }
 
 puts "Creating a project \"${proj_name}\""

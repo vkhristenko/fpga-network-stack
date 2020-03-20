@@ -1,5 +1,15 @@
+set default_proj_name "default_project_name"
+if { [llength $argv] == 0} {
+    set proj_name $default_proj_name
+} elseif { [llength $argv] == 1 } { 
+    set proj_name [lindex $argv 0]
+} else {
+    puts "wrong number of tclargs."
+    exit 1
+}
+
 #open project
-open_project ${CMAKE_BINARY_DIR}/${CMAKE_PROJECT_NAME}-project/${CMAKE_PROJECT_NAME}.xpr
+open_project ${CMAKE_BINARY_DIR}/$proj_name/$proj_name.xpr
 update_compile_order -fileset sources_1
 
 ##raise width mismatch warnings to errors
