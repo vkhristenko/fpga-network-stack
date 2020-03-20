@@ -1,8 +1,12 @@
 set default_proj_name "default_project_name"
+set synth_name "synth_1"
 if { [llength $argv] == 0} {
     set proj_name $default_proj_name
 } elseif { [llength $argv] == 1 } { 
     set proj_name [lindex $argv 0]
+} elseif { [llength $argv] == 2} {
+  set proj_name [lindex $argv 0]
+  set synth_name [lindex $argv 1]
 } else {
     puts "wrong number of tclargs."
     exit 1
@@ -16,5 +20,8 @@ update_compile_order -fileset sources_1
 set_msg_config -id "Synth 8-689" -new_severity ERROR
 
 ##start synthesis
-launch_runs synth_1 -jobs 16
+launch_runs synth_1 -jobs 8
 wait_on_run synth_1
+
+# send an email upon completion
+exec sendmail viktor.khristenko@cern.ch < ~/email.txt
