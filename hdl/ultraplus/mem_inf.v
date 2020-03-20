@@ -291,7 +291,7 @@ ddr4_ip ddr4_c0_inst (
   .c0_ddr4_s_axi_ctrl_rresp(),      // output wire [1 : 0] c0_ddr4_s_axi_ctrl_rresp
   .c0_ddr4_interrupt(),                    // output wire c0_ddr4_interrupt
   .c0_ddr4_s_axi_awid(c0_s_axi_awid),                  // input wire [3 : 0] c0_ddr4_s_axi_awid
-  .c0_ddr4_s_axi_awaddr(c0_s_axi_awaddr),              // input wire [30 : 0] c0_ddr4_s_axi_awaddr
+  .c0_ddr4_s_axi_awaddr(c0_s_axi_awaddr[C0_C_S_AXI_ADDR_WIDTH-2:0]),              // input wire [30 : 0] c0_ddr4_s_axi_awaddr
   .c0_ddr4_s_axi_awlen(c0_s_axi_awlen),                // input wire [7 : 0] c0_ddr4_s_axi_awlen
   .c0_ddr4_s_axi_awsize(c0_s_axi_awsize),              // input wire [2 : 0] c0_ddr4_s_axi_awsize
   .c0_ddr4_s_axi_awburst(c0_s_axi_awburst),            // input wire [1 : 0] c0_ddr4_s_axi_awburst
@@ -311,7 +311,7 @@ ddr4_ip ddr4_c0_inst (
   .c0_ddr4_s_axi_bresp(c0_s_axi_bresp),                // output wire [1 : 0] c0_ddr4_s_axi_bresp
   .c0_ddr4_s_axi_bvalid(c0_s_axi_bvalid),              // output wire c0_ddr4_s_axi_bvalid
   .c0_ddr4_s_axi_arid(c0_s_axi_arid),                  // input wire [3 : 0] c0_ddr4_s_axi_arid
-  .c0_ddr4_s_axi_araddr(c0_s_axi_araddr),              // input wire [30 : 0] c0_ddr4_s_axi_araddr
+  .c0_ddr4_s_axi_araddr(c0_s_axi_araddr[C0_C_S_AXI_ADDR_WIDTH-2:0]),              // input wire [30 : 0] c0_ddr4_s_axi_araddr
   .c0_ddr4_s_axi_arlen(c0_s_axi_arlen),                // input wire [7 : 0] c0_ddr4_s_axi_arlen
   .c0_ddr4_s_axi_arsize(c0_s_axi_arsize),              // input wire [2 : 0] c0_ddr4_s_axi_arsize
   .c0_ddr4_s_axi_arburst(c0_s_axi_arburst),            // input wire [1 : 0] c0_ddr4_s_axi_arburst
@@ -376,7 +376,7 @@ ddr4_ip ddr4_c1_inst (
   .c0_ddr4_s_axi_ctrl_rresp(),      // output wire [1 : 0] c0_ddr4_s_axi_ctrl_rresp
   .c0_ddr4_interrupt(),                    // output wire c0_ddr4_interrupt
   .c0_ddr4_s_axi_awid(c1_s_axi_awid),                  // input wire [3 : 0] c0_ddr4_s_axi_awid
-  .c0_ddr4_s_axi_awaddr(c1_s_axi_awaddr),              // input wire [30 : 0] c0_ddr4_s_axi_awaddr
+  .c0_ddr4_s_axi_awaddr(c1_s_axi_awaddr[C1_C_S_AXI_ADDR_WIDTH-2:0]),              // input wire [30 : 0] c0_ddr4_s_axi_awaddr
   .c0_ddr4_s_axi_awlen(c1_s_axi_awlen),                // input wire [7 : 0] c0_ddr4_s_axi_awlen
   .c0_ddr4_s_axi_awsize(c1_s_axi_awsize),              // input wire [2 : 0] c0_ddr4_s_axi_awsize
   .c0_ddr4_s_axi_awburst(c1_s_axi_awburst),            // input wire [1 : 0] c0_ddr4_s_axi_awburst
@@ -396,7 +396,7 @@ ddr4_ip ddr4_c1_inst (
   .c0_ddr4_s_axi_bresp(c1_s_axi_bresp),                // output wire [1 : 0] c0_ddr4_s_axi_bresp
   .c0_ddr4_s_axi_bvalid(c1_s_axi_bvalid),              // output wire c0_ddr4_s_axi_bvalid
   .c0_ddr4_s_axi_arid(c1_s_axi_arid),                  // input wire [3 : 0] c0_ddr4_s_axi_arid
-  .c0_ddr4_s_axi_araddr(c1_s_axi_araddr),              // input wire [30 : 0] c0_ddr4_s_axi_araddr
+  .c0_ddr4_s_axi_araddr(c1_s_axi_araddr[C0_C_S_AXI_ADDR_WIDTH-2:0]),              // input wire [30 : 0] c0_ddr4_s_axi_araddr
   .c0_ddr4_s_axi_arlen(c1_s_axi_arlen),                // input wire [7 : 0] c0_ddr4_s_axi_arlen
   .c0_ddr4_s_axi_arsize(c1_s_axi_arsize),              // input wire [2 : 0] c0_ddr4_s_axi_arsize
   .c0_ddr4_s_axi_arburst(c1_s_axi_arburst),            // input wire [1 : 0] c0_ddr4_s_axi_arburst
@@ -451,7 +451,7 @@ wire        axis_mem0_dm_to_cc_read_tlast;
 generate
     if (ENABLE_DDR0 == 1) begin
     
-axis_data_fifo_64_cc axis_write_data_fifo_mem0 (
+axis_data_fifo_512_cc axis_write_data_fifo_mem0 (
    .s_axis_aclk(axi_clk),                // input wire s_axis_aclk
    .s_axis_aresetn(aresetn),          // input wire s_axis_aresetn
    .s_axis_tvalid(s_axis_mem0_write_tvalid),            // input wire s_axis_tvalid
@@ -473,7 +473,7 @@ axis_data_fifo_64_cc axis_write_data_fifo_mem0 (
    //.axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
  );
 
-axis_data_fifo_64_cc axis_read_data_fifo_mem0 (
+axis_data_fifo_512_axis_tcpip_read_datacc axis_read_data_fifo_mem0 (
    .s_axis_aclk(c0_ui_clk),                // input wire s_axis_aclk
    .s_axis_aresetn(c0_aresetn_r),          // input wire s_axis_aresetn
    .s_axis_tvalid(axis_mem0_dm_to_cc_read_tvalid),            // input wire s_axis_tvalid
@@ -501,6 +501,20 @@ axis_data_fifo_64_cc axis_read_data_fifo_mem0 (
  end
 endgenerate
 
+wire        axis_to_dm_mem1_write_cmd_tvalid;
+wire        axis_to_dm_mem1_write_cmd_tready;
+wire[71:0]  axis_to_dm_mem1_write_cmd_tdata;
+assign axis_to_dm_mem1_write_cmd_tvalid = s_axis_mem1_write_cmd_tvalid;
+assign s_axis_mem1_write_cmd_tready = axis_to_dm_mem1_write_cmd_tready;
+// [71:68] reserved, [67:64] tag, [63:32] address,[31] drr, [30] eof, [29:24] dsa, [23] type, [22:0] btt (bytes to transfer)
+assign axis_to_dm_mem1_write_cmd_tdata = {8'h0, s_axis_mem1_write_cmd_tdata[31:0], 1'b1, 1'b1, 6'h0, 1'b1, s_axis_mem1_write_cmd_tdata[86:64]};
+wire        axis_to_dm_mem1_read_cmd_tvalid;
+wire        axis_to_dm_mem1_read_cmd_tready;
+wire[71:0]  axis_to_dm_mem1_read_cmd_tdata;
+assign axis_to_dm_mem1_read_cmd_tvalid = s_axis_mem1_read_cmd_tvalid;
+assign s_axis_mem1_read_cmd_tready = axis_to_dm_mem1_read_cmd_tready;
+// [71:68] reserved, [67:64] tag, [63:32] address,[31] drr, [30] eof, [29:24] dsa, [23] type, [22:0] btt (bytes to transfer)
+assign axis_to_dm_mem1_read_cmd_tdata = {8'h0, s_axis_mem1_read_cmd_tdata[31:0], 1'b1, 1'b1, 6'h0, 1'b1, s_axis_mem1_read_cmd_tdata[86:64]};
 
 wire        axis_mem1_cc_to_dm_write_tvalid;
 wire        axis_mem1_cc_to_dm_write_tready;
@@ -517,7 +531,7 @@ wire        axis_mem1_dm_to_cc_read_tlast;
 generate
     if (ENABLE_DDR1 == 1) begin
     
-axis_data_fifo_64_cc axis_write_data_fifo_mem1 (
+axis_data_fifo_512_cc axis_write_data_fifo_mem1 (
    .s_axis_aclk(axi_clk),                // input wire s_axis_aclk
    .s_axis_aresetn(aresetn),          // input wire s_axis_aresetn
    .s_axis_tvalid(s_axis_mem1_write_tvalid),            // input wire s_axis_tvalid
@@ -539,7 +553,7 @@ axis_data_fifo_64_cc axis_write_data_fifo_mem1 (
    //.axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
  );
 
-axis_data_fifo_64_cc axis_read_data_fifo_mem1 (
+axis_data_fifo_512_cc axis_read_data_fifo_mem1 (
    .s_axis_aclk(c1_ui_clk),                // input wire s_axis_aclk
    .s_axis_aresetn(c1_aresetn_r),          // input wire s_axis_aresetn
    .s_axis_tvalid(axis_mem1_dm_to_cc_read_tvalid),            // input wire s_axis_tvalid
@@ -676,9 +690,9 @@ axi_datamover_ip datamover_mem1 (
     .mm2s_err(m1_mm2s_err), //: OUT STD_LOGIC;
     .m_axis_mm2s_cmdsts_aclk(axi_clk), //: IN STD_LOGIC;
     .m_axis_mm2s_cmdsts_aresetn(aresetn), //: IN STD_LOGIC;
-    .s_axis_mm2s_cmd_tvalid(s_axis_mem1_read_cmd_tvalid), //: IN STD_LOGIC;
-    .s_axis_mm2s_cmd_tready(s_axis_mem1_read_cmd_tready), //: OUT STD_LOGIC;
-    .s_axis_mm2s_cmd_tdata(s_axis_mem1_read_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
+    .s_axis_mm2s_cmd_tvalid(axis_to_dm_mem1_read_cmd_tvalid), //: IN STD_LOGIC;
+    .s_axis_mm2s_cmd_tready(axis_to_dm_mem1_read_cmd_tready), //: OUT STD_LOGIC;
+    .s_axis_mm2s_cmd_tdata(axis_to_dm_mem1_read_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
     .m_axis_mm2s_sts_tvalid(m_axis_mem1_read_sts_tvalid), //: OUT STD_LOGIC;
     .m_axis_mm2s_sts_tready(m_axis_mem1_read_sts_tready), //: IN STD_LOGIC;
     .m_axis_mm2s_sts_tdata(m_axis_mem1_read_sts_tdata), //: OUT STD_LOGIC_VECTOR(7 DOWNTO 0);
@@ -709,9 +723,9 @@ axi_datamover_ip datamover_mem1 (
     .s2mm_err(m1_s2mm_err), //: OUT STD_LOGIC;
     .m_axis_s2mm_cmdsts_awclk(axi_clk), //: IN STD_LOGIC;
     .m_axis_s2mm_cmdsts_aresetn(aresetn), //: IN STD_LOGIC;
-    .s_axis_s2mm_cmd_tvalid(s_axis_mem1_write_cmd_tvalid), //: IN STD_LOGIC;
-    .s_axis_s2mm_cmd_tready(s_axis_mem1_write_cmd_tready), //: OUT STD_LOGIC;
-    .s_axis_s2mm_cmd_tdata(s_axis_mem1_write_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
+    .s_axis_s2mm_cmd_tvalid(axis_to_dm_mem1_write_cmd_tvalid), //: IN STD_LOGIC;
+    .s_axis_s2mm_cmd_tready(axis_to_dm_mem1_write_cmd_tready), //: OUT STD_LOGIC;
+    .s_axis_s2mm_cmd_tdata(axis_to_dm_mem1_write_cmd_tdata), //: IN STD_LOGIC_VECTOR(71 DOWNTO 0);
     .m_axis_s2mm_sts_tvalid(m_axis_mem1_write_sts_tvalid), //: OUT STD_LOGIC;
     .m_axis_s2mm_sts_tready(m_axis_mem1_write_sts_tready), //: IN STD_LOGIC;
     .m_axis_s2mm_sts_tdata(m_axis_mem1_write_sts_tdata), //: OUT STD_LOGIC_VECTOR(31 DOWNTO 0);
