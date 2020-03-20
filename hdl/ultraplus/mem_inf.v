@@ -473,7 +473,7 @@ axis_data_fifo_512_cc axis_write_data_fifo_mem0 (
    //.axis_rd_data_count()  // output wire [31 : 0] axis_rd_data_count
  );
 
-axis_data_fifo_512_axis_tcpip_read_datacc axis_read_data_fifo_mem0 (
+axis_data_fifo_512_cc axis_tcpip_read_datacc axis_read_data_fifo_mem0 (
    .s_axis_aclk(c0_ui_clk),                // input wire s_axis_aclk
    .s_axis_aresetn(c0_aresetn_r),          // input wire s_axis_aresetn
    .s_axis_tvalid(axis_mem0_dm_to_cc_read_tvalid),            // input wire s_axis_tvalid
