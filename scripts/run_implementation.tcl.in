@@ -17,7 +17,7 @@ open_project ${CMAKE_BINARY_DIR}/$proj_name/$proj_name.xpr
 update_compile_order -fileset sources_1
 
 #start implementation
-launch_runs impl_1 -verbose -jobs 8
+launch_runs impl_1 -verbose -jobs 16
 wait_on_run impl_1
 
 # send an email upon completion
