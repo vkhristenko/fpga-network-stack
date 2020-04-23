@@ -257,7 +257,7 @@ begin
     end
 end
 // ip address output
-assign ip_address_used = iph_ip_address;
+//assign ip_address_used = iph_ip_address;
 
 
 
