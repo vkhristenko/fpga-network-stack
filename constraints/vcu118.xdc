@@ -415,3 +415,4 @@ set_property PACKAGE_PIN BA29 [get_ports {c1_ddr4_dm_dbi_n[9]}]
 set_property PACKAGE_PIN BB29 [get_ports {c1_ddr4_odt[0]}]
 set_property PACKAGE_PIN BD35 [get_ports c1_ddr4_reset_n]
 
+set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets echo_server/inst/esa_dataFifo_V_keep_s_U/m_axis_tx_data_TVALID]
