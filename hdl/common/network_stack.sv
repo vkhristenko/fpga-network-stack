@@ -112,8 +112,10 @@ module network_stack #(
     axis_meta.master    m_axis_udp_rx_metadata,
     axi_stream.master   m_axis_udp_rx_data,
     axis_meta.slave     s_axis_udp_tx_metadata,
-    axi_stream.slave    s_axis_udp_tx_data
-    
+    axi_stream.slave    s_axis_udp_tx_data,
+
+    input wire [31:0] local_ip_address,
+    input wire [3:0] board_number
  );
  
 localparam ddrPortNetworkRx = 1;
@@ -1431,14 +1433,14 @@ network_controller controller_inst(
 
     .axis_stream_down                   (axis_stream_down),
 
-    .set_ip_addr_valid(set_ip_addr_valid),
-    .set_ip_addr_data(set_ip_addr_data),
-    .set_board_number_valid(set_board_number_valid),
-    .set_board_number_data(set_board_number_data)
+    .set_ip_addr_valid(),
+    .set_ip_addr_data(),
+    .set_board_number_valid(),
+    .set_board_number_data()
 
 );
 
-
+/*
 wire set_ip_addr_valid;
 wire [31:0] set_ip_addr_data;
 reg[31:0] local_ip_address;
@@ -1465,6 +1467,7 @@ always @(posedge net_clk) begin
         end
     end
 end
+*/
 
 axis_interconnect_merger_160 tx_metadata_merger (
   .ACLK(net_clk),                                  // input wire ACLK

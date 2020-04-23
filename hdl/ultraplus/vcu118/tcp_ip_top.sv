@@ -258,10 +258,14 @@ wire regSessionCount_valid;
 wire[31:0]  ip_address_out;
 reg[31:0] local_ip_address;
 reg[31:0] target_ip_address;
+reg [3:0] board_number;
 
 always @(posedge aclk) begin
-    local_ip_address <= 32'hD1D4010A; //0x0A01D4D1 -> 10.1.212.209
-    target_ip_address <= {24'h0AD401, 8'h0A + gpio_switch[3]}; // 10.1.212.10
+    //local_ip_address <= 32'hD1D4010A; //0x0A01D4D1 -> 10.1.212.209
+    local_ip_address <= 32'h0B03A8C0; //0xC0A8030B -> 192.168.3.11
+    //target_ip_address <= {24'h0AD401, 8'h0A + gpio_switch[3]}; // 10.1.212.10
+    target_ip_address <= 32'h0A03A8C0;
+    board_number <= 4'b0000;
 end
 
 // Control Interface
@@ -341,6 +345,8 @@ network_stack #(
     //.board_number({1'b0, gpio_switch[2:0]}),
     //.subnet_number({1'b0, gpio_switch[3]})
 
+    .local_ip_address(local_ip_address),
+    .board_number(board_number)
     );
 
 
