@@ -335,7 +335,7 @@ network_stack #(
     .m_axis_udp_rx_metadata(axis_udp_rx_metadata),
     .m_axis_udp_rx_data(axis_udp_rx_data),
     .s_axis_udp_tx_metadata(axis_udp_tx_metadata),
-    .s_axis_udp_tx_data(axis_udp_tx_data)
+    .s_axis_udp_tx_data(axis_udp_tx_data),
     `endif
     //.ip_address_in(local_ip_address),
     //.ip_address_out(ip_address_out),
