@@ -126,9 +126,9 @@ axis_meta #(.WIDTH(16))     axis_close_connection();
 axis_meta #(.WIDTH(88))     axis_notifications();
 axis_meta #(.WIDTH(32))     axis_read_package();
 axis_meta #(.WIDTH(16))     axis_rx_metadata();
-axis_stream #(.WIDTH(WIDTH))   axis_app_rx_data();
+axi_stream #(.WIDTH(WIDTH))   axis_app_rx_data();
 axis_meta #(.WIDTH(32))     axis_tx_metadata();
-axis_stream #(.WIDTH(WIDTH))   axis_app_tx_data();
+axi_stream #(.WIDTH(WIDTH))   axis_app_tx_data();
 axis_meta #(.WIDTH(64))     axis_app_tx_status();
 
 
@@ -887,9 +887,9 @@ axis_register_slice_16 axis_rx_metadata_slice (
   .m_axis_tdata(m_axis_rx_metadata.data)    // output wire [7 : 0] m_axis_tdata
 );
 
-registier_slice_wrapper #(.WIDTH(WIDTH)) axis_rx_data_slice(
+register_slice_wrapper #(.WIDTH(WIDTH)) axis_rx_data_slice(
     .aclk(net_clk),
-    .aresetn(new_aresetn),
+    .aresetn(net_aresetn),
     .s_axis(axis_app_rx_data),
     .m_axis(m_axis_rx_data)
 );
@@ -905,9 +905,9 @@ axis_register_slice_32 axis_tx_metadata_slice (
   .m_axis_tdata(axis_tx_metadata.data)    // output wire [7 : 0] m_axis_tdata
 );
 
-registier_slice_wrapper #(.WIDTH(WIDTH)) axis_tx_data_slice(
+register_slice_wrapper #(.WIDTH(WIDTH)) axis_tx_data_slice(
     .aclk(net_clk),
-    .aresetn(new_aresetn),
+    .aresetn(net_aresetn),
     .s_axis(s_axis_tx_data),
     .m_axis(axis_app_tx_data)
 );
