@@ -487,6 +487,7 @@ reg[7:0] packetGap;
      end
      else begin
          runIperfUdp <= 0;
+         packetGap <= 0;
          if (button_north) begin
              packetGap <= 0;
              runIperfUdp <= 1;
@@ -506,7 +507,7 @@ reg[7:0] packetGap;
    .ap_clk(aclk),                                            // input wire aclk
    .ap_rst_n(aresetn),                                      // input wire aresetn
    .runExperiment_V(runUdpExperiment | runIperfUdp),                      // input wire [0 : 0] runExperiment_V
-   .pkgWordCount_V(8'b0),
+   .pkgWordCount_V(8'b11000000),
    .packetGap_V(packetGap),
    //.regMyIpAddress_V(32'h02D4010B),                    // input wire [31 : 0] regMyIpAddress_V
    .targetIpAddress_V(target_ip_address),
