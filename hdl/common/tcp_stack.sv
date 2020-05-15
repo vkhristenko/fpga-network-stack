@@ -126,7 +126,10 @@ axis_meta #(.WIDTH(16))     axis_close_connection();
 axis_meta #(.WIDTH(88))     axis_notifications();
 axis_meta #(.WIDTH(32))     axis_read_package();
 axis_meta #(.WIDTH(16))     axis_rx_metadata();
+axis_stream #(.WIDTH(WIDTH))   axis_app_rx_data();
 axis_meta #(.WIDTH(32))     axis_tx_metadata();
+axis_stream #(.WIDTH(WIDTH))   axis_app_tx_data();
+axis_meta #(.WIDTH(64))     axis_app_tx_status();
 
 
 wire[31:0] rx_buffer_data_count;
@@ -270,24 +273,24 @@ toe_ip toe_inst (
 .m_axis_rx_data_rsp_metadata_V_V_TVALID(axis_rx_metadata.valid),
 .m_axis_rx_data_rsp_metadata_V_V_TREADY(axis_rx_metadata.ready),
 .m_axis_rx_data_rsp_metadata_V_V_TDATA(axis_rx_metadata.data),
-.m_axis_rx_data_rsp_TVALID(m_axis_rx_data.valid),
-.m_axis_rx_data_rsp_TREADY(m_axis_rx_data.ready),
-.m_axis_rx_data_rsp_TDATA(m_axis_rx_data.data),
-.m_axis_rx_data_rsp_TKEEP(m_axis_rx_data.keep),
-.m_axis_rx_data_rsp_TLAST(m_axis_rx_data.last),
+.m_axis_rx_data_rsp_TVALID(axis_app_rx_data.valid),
+.m_axis_rx_data_rsp_TREADY(axis_app_rx_data.ready),
+.m_axis_rx_data_rsp_TDATA(axis_app_rx_data.data),
+.m_axis_rx_data_rsp_TKEEP(axis_app_rx_data.keep),
+.m_axis_rx_data_rsp_TLAST(axis_app_rx_data.last),
 
 // tx data
 .s_axis_tx_data_req_metadata_V_TVALID(axis_tx_metadata.valid),
 .s_axis_tx_data_req_metadata_V_TREADY(axis_tx_metadata.ready),
 .s_axis_tx_data_req_metadata_V_TDATA(axis_tx_metadata.data),
-.s_axis_tx_data_req_TVALID(s_axis_tx_data.valid),
-.s_axis_tx_data_req_TREADY(s_axis_tx_data.ready),
-.s_axis_tx_data_req_TDATA(s_axis_tx_data.data),
-.s_axis_tx_data_req_TKEEP(s_axis_tx_data.keep),
-.s_axis_tx_data_req_TLAST(s_axis_tx_data.last),
-.m_axis_tx_data_rsp_V_TVALID(m_axis_tx_status.valid),
-.m_axis_tx_data_rsp_V_TREADY(m_axis_tx_status.ready),
-.m_axis_tx_data_rsp_V_TDATA(m_axis_tx_status.data),
+.s_axis_tx_data_req_TVALID(axis_app_tx_data.valid),
+.s_axis_tx_data_req_TREADY(axis_app_tx_data.ready),
+.s_axis_tx_data_req_TDATA(axis_app_tx_data.data),
+.s_axis_tx_data_req_TKEEP(axis_app_tx_data.keep),
+.s_axis_tx_data_req_TLAST(axis_app_tx_data.last),
+.m_axis_tx_data_rsp_V_TVALID(axis_app_tx_status.valid),
+.m_axis_tx_data_rsp_V_TREADY(axis_app_tx_status.ready),
+.m_axis_tx_data_rsp_V_TDATA(axis_app_tx_status.data),
 
 .myIpAddress_V(local_ip_address),
 .regSessionCount_V(session_count_data),
@@ -883,6 +886,14 @@ axis_register_slice_16 axis_rx_metadata_slice (
   .m_axis_tready(m_axis_rx_metadata.ready),  // input wire m_axis_tready
   .m_axis_tdata(m_axis_rx_metadata.data)    // output wire [7 : 0] m_axis_tdata
 );
+
+registier_slice_wrapper #(.WIDTH(WIDTH)) axis_rx_data_slice(
+    .aclk(net_clk),
+    .aresetn(new_aresetn),
+    .s_axis(axis_app_rx_data),
+    .m_axis(m_axis_rx_data)
+);
+
 axis_register_slice_32 axis_tx_metadata_slice (
   .aclk(net_clk),                    // input wire aclk
   .aresetn(net_aresetn),              // input wire aresetn
@@ -893,6 +904,25 @@ axis_register_slice_32 axis_tx_metadata_slice (
   .m_axis_tready(axis_tx_metadata.ready),  // input wire m_axis_tready
   .m_axis_tdata(axis_tx_metadata.data)    // output wire [7 : 0] m_axis_tdata
 );
+
+registier_slice_wrapper #(.WIDTH(WIDTH)) axis_tx_data_slice(
+    .aclk(net_clk),
+    .aresetn(new_aresetn),
+    .s_axis(s_axis_tx_data),
+    .m_axis(axis_app_tx_data)
+);
+
+axis_register_slice_64 axis_tx_status_slice (
+  .aclk(net_clk),                    // input wire aclk
+  .aresetn(net_aresetn),              // input wire aresetn
+  .s_axis_tvalid(axis_app_tx_status.valid),  // input wire s_axis_tvalid
+  .s_axis_tready(axis_app_tx_status.ready),  // output wire s_axis_tready
+  .s_axis_tdata(axis_app_tx_status.data),    // input wire [7 : 0] s_axis_tdata
+  .m_axis_tvalid(m_axis_tx_status.valid),  // output wire m_axis_tvalid
+  .m_axis_tready(m_axis_tx_status.ready),  // input wire m_axis_tready
+  .m_axis_tdata(m_axis_tx_status.data)    // output wire [7 : 0] m_axis_tdata
+);
+
 
 logic[15:0] read_cmd_counter;
 logic[15:0] read_pkg_counter;
