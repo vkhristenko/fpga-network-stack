@@ -50,6 +50,13 @@ struct ipUdpMeta
 	ap_uint<16> my_port;
 	ap_uint<16>	length;
 	ipUdpMeta() {}
+    // TODO: this is a workaround to make things consistent
+	ipUdpMeta(ap_uint<32> addr, ap_uint<16> tport, ap_uint<16> mport, ap_uint<16> len)
+		: their_address(addr.concat(addr).concat(addr).concat(addr))
+        , their_port(tport)
+        , my_port(mport)
+        , length(len) 
+    {}
 	ipUdpMeta(ap_uint<128> addr, ap_uint<16> tport, ap_uint<16> mport, ap_uint<16> len)
 		:their_address(addr), their_port(tport), my_port(mport), length(len) {}
 };
