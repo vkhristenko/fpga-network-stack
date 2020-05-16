@@ -335,8 +335,8 @@ udp_stack #(
       .s_axis_udp_tx_data(s_axis_udp_tx_data),
       
       .local_ip_address(local_ip_address[31:0]),
-      .listen_port(16'h1389)
-      
+      .listen_port(16'h8000) // iperf udp listens on this port
+//      .listen_port(16'h1389) // ...
 );
 
 /*
