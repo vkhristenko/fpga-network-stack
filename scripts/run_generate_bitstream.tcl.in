@@ -1,0 +1,22 @@
+set default_project_name "default_project_name"
+if { {llength $argv} == 0 } { 
+    set proj_nmae $default_proj_name
+} elseif { [llength $argv] == 1 } { 
+    set proj_name [lindex $argv 0]
+} else {
+    puts "wrong number of tcl args."
+    exit 1
+}
+
+open_project ${CMAKE_BINARY_DIR}/$proj_name/$proj_name.xpr
+
+#open_run impl_1
+#set_property ALLOW_COMBINATORIAL_LOOPS TRUE [get_nets echo_server/inst/esa_dataFifo_V_last_s_U/m_axis_tx_data_TVALID]
+
+update_compile_order -fileset sources_1
+
+#reset_run -prev_step impl_1
+launch_runs impl_1 -to_step write_bitstream -jobs 8
+wait_on_run impl_1
+
+exec sendmail viktor.khristenko@cern.ch < ~/email.txt
