@@ -2,8 +2,8 @@
 `default_nettype none
 
 `define USE_DDR
-`define ECHO_SERVER
-//`define IPERF_CLIENT
+//`define ECHO_SERVER
+`define IPERF_CLIENT
 `define UDP
 
 `include "../../common/davos_types.svh"
@@ -454,14 +454,14 @@ iperf_client_ip iperf_client (
   .s_axis_tx_status_V_TDATA(axis_tcpip_tx_status.data),                      // input wire [23 : 0] s_axis_tx_status_TDATA
   
   //Client only
-  .runExperiment_V(runExperiment | button_west),
+  .runExperiment_V(runExperiment /*| button_west */),
   .dualModeEn_V(dualMode),                                          // input wire [0 : 0] dualModeEn_V
   .useConn_V(noOfConnections),                                                // input wire [7 : 0] useConn_V
   .pkgWordCount_V(pkgWordCount),                                      // input wire [7 : 0] pkgWordCount_V
-  .regIpAddress0_V(32'h0B01D40A),                                    // input wire [31 : 0] regIpAddress1_V
-  .regIpAddress1_V(32'h0B01D40A),                                    // input wire [31 : 0] regIpAddress1_V
-  .regIpAddress2_V(32'h0B01D40A),                                    // input wire [31 : 0] regIpAddress1_V
-  .regIpAddress3_V(32'h0B01D40A),                                    // input wire [31 : 0] regIpAddress1_V
+  .regIpAddress0_V(target_ip_address),                                    // input wire [31 : 0] regIpAddress1_V
+  .regIpAddress1_V(target_ip_address),                                    // input wire [31 : 0] regIpAddress1_V
+  .regIpAddress2_V(target_ip_address),                                    // input wire [31 : 0] regIpAddress1_V
+  .regIpAddress3_V(target_ip_address),                                    // input wire [31 : 0] regIpAddress1_V
   .aclk(aclk),                                                          // input wire aclk
   .aresetn(aresetn)                                                    // input wire aresetn
 );
