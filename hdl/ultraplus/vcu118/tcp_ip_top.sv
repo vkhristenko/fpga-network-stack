@@ -2,8 +2,8 @@
 `default_nettype none
 
 `define USE_DDR
-//`define ECHO_SERVER
-`define IPERF_CLIENT
+`define ECHO_SERVER
+//`define IPERF_CLIENT
 `define UDP
 
 `include "../../common/davos_types.svh"
