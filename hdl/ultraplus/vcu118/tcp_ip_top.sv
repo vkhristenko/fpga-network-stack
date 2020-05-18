@@ -462,8 +462,8 @@ iperf_client_ip iperf_client (
   .regIpAddress1_V(target_ip_address),                                    // input wire [31 : 0] regIpAddress1_V
   .regIpAddress2_V(target_ip_address),                                    // input wire [31 : 0] regIpAddress1_V
   .regIpAddress3_V(target_ip_address),                                    // input wire [31 : 0] regIpAddress1_V
-  .aclk(aclk),                                                          // input wire aclk
-  .aresetn(aresetn)                                                    // input wire aresetn
+  .ap_clk(aclk),                                                          // input wire aclk
+  .ap_rst_n(aresetn)                                                    // input wire aresetn
 );
 `endif
 
