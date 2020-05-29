@@ -473,7 +473,7 @@ iperf_client_ip iperf_client (
 `ifdef UDP
 wire runUdpExperiment;
 wire [7:0] packetGapUdp;
-wire [7:0] pkgWordCountUdp;
+wire [15:0] pkgWordCountUdp;
 
 vio_udp_iperf_client vio_udp_iperf_client_inst (
   .clk(aclk),                // input wire clk
