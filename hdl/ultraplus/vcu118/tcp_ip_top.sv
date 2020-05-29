@@ -472,14 +472,17 @@ iperf_client_ip iperf_client (
  */
 `ifdef UDP
 wire runUdpExperiment;
+wire [7:0] packetGapUdp;
+wire [7:0] pkgWordCountUdp;
 
 vio_udp_iperf_client vio_udp_iperf_client_inst (
   .clk(aclk),                // input wire clk
-  .probe_out0(runUdpExperiment)  // output wire [0 : 0] probe_out0
+  .probe_out0(runUdpExperiment),  // output wire [0 : 0] probe_out0
+  .probe_out1(pkgWordCountUdp),
+  .probe_out2(packetGapUdp)
 );
 
-reg runIperfUdp;
-reg[7:0] packetGap;
+    /*
  always @(posedge aclk) begin
      if (~aresetn) begin
          runIperfUdp <= 0;
@@ -502,13 +505,14 @@ reg[7:0] packetGap;
          end
      end
  end
+    */
  
  iperf_udp_ip iperf_udp_client_inst (
    .ap_clk(aclk),                                            // input wire aclk
    .ap_rst_n(aresetn),                                      // input wire aresetn
-   .runExperiment_V(runUdpExperiment | runIperfUdp),                      // input wire [0 : 0] runExperiment_V
-   .pkgWordCount_V(8'b00001010), // 10 words 
-   .packetGap_V(packetGap),
+   .runExperiment_V(runUdpExperiment),                      // input wire [0 : 0] runExperiment_V
+   .pkgWordCount_V(pkgWordCountUdp), // 10 words 
+   .packetGap_V(packetGapUdp),
    //.regMyIpAddress_V(32'h02D4010B),                    // input wire [31 : 0] regMyIpAddress_V
    .targetIpAddress_V(target_ip_address),
 //   .targetIpAddress_V({target_ip_address, target_ip_address, target_ip_address, target_ip_address}),            // input wire [31 : 0] regTargetIpAddress_V
