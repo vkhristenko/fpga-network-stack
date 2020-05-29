@@ -35,7 +35,7 @@ void client(hls::stream<ipUdpMeta>&	txMetaData,
 			hls::stream<bool>&			stopSignal,
 			hls::stream<bool>&			doneSignalFifo,
 			ap_uint<1>		runExperiment,
-			ap_uint<8>		pkgWordCount,
+			ap_uint<16>		pkgWordCount,
 			ap_uint<8>		packetGap,
 			ap_uint<32>		targetIpAddress)
 {
@@ -46,7 +46,7 @@ void client(hls::stream<ipUdpMeta>&	txMetaData,
 	static bool timeOver = false;
 	static bool lastPkg = false;
 	static bool receivedResponse = false;
-	static ap_uint<8> wordCount = 0;
+	static ap_uint<16> wordCount = 0;
 	static ap_uint<32> seqNumber = 0;
 	static ap_uint<32> microsecondCounter = 0;
 	static ap_uint<32> secondCounter = 0;
@@ -271,7 +271,7 @@ void iperf_udp(	hls::stream<ipUdpMeta>&	rxMetaData,
 				hls::stream<ipUdpMeta>&	txMetaData,
 				hls::stream<net_axis<DATA_WIDTH> >&	txData,
 				ap_uint<1>		runExperiment,
-				ap_uint<8>		pkgWordCount,
+				ap_uint<16>		pkgWordCount,
 				ap_uint<8>		packetGap,
 				ap_uint<32>		targetIpAddress)
 {

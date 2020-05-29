@@ -37,7 +37,7 @@ int main()
 
 	ap_uint<1>	runExperiment;
 	ap_uint<32>	targetIpAddress = 0x0A010101;
-	ap_uint<8>	pkgWordCount = 10;
+	ap_uint<16>	pkgWordCount = 10;
 	ap_uint<8>	packetGap = 0;
 
 	int count = 0;

@@ -89,7 +89,7 @@ void iperf_udp(	hls::stream<ipUdpMeta>&	rxMetaData,
 				hls::stream<ipUdpMeta>&	txMetaData,
 				hls::stream<net_axis<DATA_WIDTH> >&	txData,
 				ap_uint<1>		runExperiment,
-				ap_uint<8>		pkgWordCount,
+				ap_uint<16>		pkgWordCount,
 				ap_uint<8>		packetGap,
 				ap_uint<32>		targetIpAddress);
 #endif
