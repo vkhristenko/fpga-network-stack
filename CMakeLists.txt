@@ -97,7 +97,8 @@ configure_file(${CMAKE_SOURCE_DIR}/scripts/run_synthesis.tcl.in run_synthesis.tc
 configure_file(${CMAKE_SOURCE_DIR}/scripts/run_implementation.tcl.in run_implementation.tcl)
 configure_file(${CMAKE_SOURCE_DIR}/scripts/run_generate_bitstream.tcl.in run_generate_bitstream.tcl)
 configure_file(${CMAKE_SOURCE_DIR}/scripts/run_program_device.tcl.in run_program_device.tcl)
-configure_file(${CMAKE_SOURCE_DIR}/scripts/run_toggle_udpiperf_probes.tcl run_toggle_udpiperf_probes.tcl)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/run_set_off_udpiperf_probes.tcl run_set_off_udpiperf_probes.tcl)
+configure_file(${CMAKE_SOURCE_DIR}/scripts/run_set_on_udpiperf_probes.tcl run_set_on_udpiperf_probes.tcl)
 
 #set (PROJECT_DEPENDS
 #     ${CMAKE_SOURCE_DIR}/rtl/common/network_stack.v
